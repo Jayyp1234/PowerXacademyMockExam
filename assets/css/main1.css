@@ -1,0 +1,16 @@
+.login-flex{
+    display: flex;
+    justify-content: space-evenly;
+  }
+  .login-flex a {
+    padding: 12px 50px;
+    background-color: white;
+    border-radius: 25px;
+    font-size: small;
+    font-weight: 500;
+    font-family: system-ui;
+}
+.single-footer-widget h4{
+    font-weight: 500 !important;
+    font-family: system-ui !important;
+}
