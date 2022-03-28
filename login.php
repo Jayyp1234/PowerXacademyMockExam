@@ -3,15 +3,13 @@ include 'backend_data/init.php';
 session_start();
 if (isset($_COOKIE['user_id'])) {
   $user_id = $_COOKIE['user_id'];
-  $sql = "SELECT * FROM registable where id ='$user_id'  ";
+  $sql = "SELECT * FROM users where id ='$user_id'  ";
   $query = mysqli_query($conn,$sql);
   if ($query) {
     while ($row = mysqli_fetch_assoc($query)) {
       $_SESSION['user_id'] = $row["id"];
-          $_SESSION['username'] = $row["name"];
-          $_SESSION['email'] = $row["email"];
-          $_SESSION['department'] = $row["department"];
-         
+      $_SESSION['username'] = $row["name"];
+      $_SESSION['email'] = $row["email"];
     }
        header('Location:dashboard.php');
   }
@@ -22,9 +20,10 @@ if (isset($_COOKIE['user_id'])) {
 <head>
 	<meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-	<title>Login-Page</title>
-	<meta content=" Web Developer with a focus on Front-end and Mobile application." name="description">
-  	<meta content="Okeke , Okeke Johnpaul , john's Biography , Johnpaul's Portfolio" name="keywords">
+	  <title>Login-Page</title>
+	  <meta content="PowerXacademyMockExam is an award winning unified learning platform that includes a learning management system (LMS), it helps you to manage your school mock exams in a better way." name="description">
+  	<meta content="mock,exam,online,dashboard,admin" name="keywords">
+    <link rel="icon" href="img/logo.jpeg" type="image/jpeg">
   	<!--icons link-->
   	<link rel="stylesheet" href="assets/fonts/icomoon/style.css">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
@@ -49,7 +48,6 @@ if (isset($_COOKIE['user_id'])) {
     padding: 3% 3%;
   }
 }
-
 </style>
 	<main>
   <?php 
@@ -63,10 +61,10 @@ if (isset($_COOKIE['user_id'])) {
     return $data;
   }
   $username = $passwd = ''; 
-  if (isset($_POST['uname']) && isset($_POST['pswd'])) {
-    $usname = test_input($_POST['uname']);
+  if (isset($_POST['email']) && isset($_POST['pswd'])) {
+    $email = test_input($_POST['email']);
     $passwd = test_input($_POST['pswd']);
-    $sqle = "SELECT * FROM registable WHERE username = '$usname' AND password = '$passwd' ";
+    $sqle = "SELECT * FROM users WHERE email = '$email' AND password = '$passwd' ";
     $resulte = $conn->query($sqle);
       if ($resulte->num_rows > 0) {
       // output data of each row
@@ -77,7 +75,6 @@ if (isset($_COOKIE['user_id'])) {
           $_SESSION['user_id'] = $row["id"];
           $_SESSION['username'] = $row["name"];
           $_SESSION['email'] = $row["email"];
-          $_SESSION['department'] = $row["department"];
                header('Location:dashboard.php');
         }
     } 
@@ -89,20 +86,15 @@ if (isset($_COOKIE['user_id'])) {
   }
   $conn->close();
 ?>
-        <div class="back"><a href="index.php"><i class="icon-arrow-left"> </i> <span class="back-key"> Back to Home Screen </span> </a> </div>
         <section class="login_container"> 
             <div class="first-phase">
-                <h2> LOG IN </h2>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                    llendus a, provident repellat totam ex reiciendis 
-                    impedit maxime optio tempora, dolores nemo, dolor molestiae ipsa 
-                    beatae veritatis quam! Laboriosam, repudiandae 
-                    obcaecati. </p>
+                <h2> PowerXacademy </h2>
+                <p>PowerXacademyMockExam is an award winning unified learning platform that includes a learning management system (LMS), it helps you to manage your school mock exams in a better way.</p>
                 <img src="assets/images/cuate.png" title=""> 
             </div>
             <div class="second-phase">
                 <div class="login-box">
-                    <h3>MEMBER LOGIN</h3>
+                    <h3>LOGIN</h3>
                     <br>
                     <?php echo $errormessage ?>
                     <form action="login.php" method="POST" class="needs-validation" novalidate>
@@ -110,13 +102,13 @@ if (isset($_COOKIE['user_id'])) {
                             <div class="input-group-prepend">
                               <span class="input-group-text"><i class="icon-envelope-o"></i></span>
                             </div>
-                            <input type="text" class="form-control" id="uname" placeholder="Enter username" name="uname" required>
+                            <input type="text" class="form-control" id="email" placeholder="Email" name="email" required>
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                               <span class="input-group-text"><i class="icon-lock_outline" style="font-size: 113%;"></i></span>
                             </div>
-                            <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pswd" required>
+                            <input type="password" class="form-control" id="pwd" placeholder="Password" name="pswd" required>
                         </div>
                         <div class="form-group form-check">
                           <label class="form-check-label">
@@ -139,19 +131,6 @@ if (isset($_COOKIE['user_id'])) {
 <script type="text/javascript">
 	$(document).ready(function(){
 	});
-
-	// Preloader
-    $(window).on('load', function() {
-        if ($('#preloader').length) {
-            $('#preloader').delay(100).fadeOut('slow', function() {
-                $(this).remove();
-            });
-        }
-        $(".header-container").css("transform" , "scale(1.0)");
-    });
- 
-	
-</script>
 <script>
     (function() {
   'use strict';

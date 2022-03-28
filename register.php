@@ -8,16 +8,17 @@ session_destroy();
 <head>
 	<meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-	<title>Login-Page</title>
-	<meta content=" Web Developer with a focus on Front-end and Mobile application." name="description">
-  	<meta content="Okeke , Okeke Johnpaul , john's Biography , Johnpaul's Portfolio" name="keywords">
+	  <title>Register-Page</title>
+	  <meta content="PowerXacademyMockExam is an award winning unified learning platform that includes a learning management system (LMS), it helps you to manage your school mock exams in a better way." name="description">
+  	<meta content="mock,exam,online,dashboard,admin" name="keywords">
+    <link rel="icon" href="img/logo.jpeg" type="image/jpeg">
   	<!--icons link-->
   	<link rel="stylesheet" href="assets/fonts/icomoon/style.css">
     <link rel="stylesheet" href="assets/css/bootstrap.min.css">
-        <link rel="preload" href="/fonts/OpenSans-Regular.ttf" as='font' crossorigin='anonymous'>
-        <link rel="preload" href="/fonts/OpenSans-SemiBold.ttf" as='font' crossorigin='anonymous'>
-        <link rel="preload" href="/fonts/OpenSans-Bold.ttf" as='font' crossorigin='anonymous'>
-        <link href="assets/css/login.css" rel="stylesheet">
+    <link rel="preload" href="/fonts/OpenSans-Regular.ttf" as='font' crossorigin='anonymous'>
+    <link rel="preload" href="/fonts/OpenSans-SemiBold.ttf" as='font' crossorigin='anonymous'>
+    <link rel="preload" href="/fonts/OpenSans-Bold.ttf" as='font' crossorigin='anonymous'>
+    <link href="assets/css/login.css" rel="stylesheet">
 </head>
 <body>
 <style>
@@ -51,7 +52,7 @@ session_destroy();
   }
   function confirmemail($data){
     include 'backend_data/init.php';
-    $emailval = "SELECT * FROM registable WHERE email = '$data' ";
+    $emailval = "SELECT * FROM users WHERE email = '$data' ";
     $validator = $conn->query($emailval);
       if ($validator->num_rows > 0) {
         return false;
@@ -63,7 +64,7 @@ session_destroy();
   }
   function checkusername($data){
     include 'backend_data/init.php';
-    $emailval = "SELECT * FROM registable WHERE username = '$data' ";
+    $emailval = "SELECT * FROM users WHERE name = '$data' ";
     $validator = $conn->query($emailval);
       if ($validator->num_rows > 0) {
         return false;
@@ -74,19 +75,22 @@ session_destroy();
     $conn->close();
   }
   if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if(!empty(test_input($_POST['fname'])) && !empty(test_input($_POST['email'])) && !empty(test_input($_POST['username'])) && !empty(test_input($_POST['pswd']))){
+    if(!empty(test_input($_POST['fname'])) && !empty(test_input($_POST['email'])) && !empty(test_input($_POST['conpswd'])) && !empty(test_input($_POST['pswd']))){
       $name = test_input($_POST['fname']);
       $email = test_input($_POST['email']);
-      $username = test_input($_POST['username']);
       $password = test_input($_POST['pswd']);
-      $department = test_input($_POST['department']);
-      $emailcheck = "SELECT * FROM `registable` WHERE 'email' = $email";
+      $password1 = test_input($_POST['conpswd']);
+      $emailcheck = "SELECT * FROM `users` WHERE 'email' = $email";
       $resulte = $conn->query($emailcheck);
       if (!preg_match("/^[a-zA-Z ]*$/", $name)) {
-        $nameErr = "Only letters and white space allowed";
+        $errormessage ='<div class="alert alert-danger alert-dismissible fade show">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        Only letters and white space allowed</div>';
       }
       else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
-        $emailErr = "Invalid email format";
+        $errormessage ='<div class="alert alert-danger alert-dismissible fade show">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        Invalid email format</div>';
       }
       else if(!confirmemail($email)){
         $errormessage ='<div class="alert alert-danger alert-dismissible fade show">
@@ -103,11 +107,15 @@ session_destroy();
         <button type="button" class="close" data-dismiss="alert">&times;</button>
         Username and Email Already Exists</div>';
       }
+      else if($password != $password1){
+        $errormessage ='<div class="alert alert-danger alert-dismissible fade show">
+        <button type="button" class="close" data-dismiss="alert">&times;</button>
+        Password Does Not Match Please Try Again</div>';
+      }
       else {
           $nameErr = $emailErr= '';
-          
-          $insertdetails = "INSERT INTO registable (id, name, email, username, department, password) 
-          VALUES ('', '$name', '$email', '$username','$department', '$password')";
+          $insertdetails = "INSERT INTO users (id, name, email, password) 
+          VALUES ('', '$name', '$email', '$password')";
           if($conn->query($insertdetails)){
             $name = $email = $username = $password = $department= '';
             header('Location:dashboard.php');
@@ -122,15 +130,10 @@ session_destroy();
 
 ?>
 	<main>
-        <div class="back"><a href="index.php"><i class="icon-arrow-left"> </i> <span class="back-key"> Back to Home Screen </span> </a> </div>
         <section class="login_container"> 
             <div class="first-phase">
-                <h2> REGISTER </h2>
-                <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-                    llendus a, provident repellat totam ex reiciendis 
-                    impedit maxime optio tempora, dolores nemo, dolor molestiae ipsa 
-                    beatae veritatis quam! Laboriosam, repudiandae 
-                    obcaecati. </p>
+            <h2> PowerXacademy </h2>
+                <p>PowerXacademyMockExam is an award winning unified learning platform that includes a learning management system (LMS), it helps you to manage your school mock exams in a better way.</p>
                 <img src="assets/images/cuate.png" title=""> 
             </div>
             <div class="second-phase">
@@ -141,9 +144,9 @@ session_destroy();
                     <form action="register.php" class="needs-validation" novalidate method="POST">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                              <span class="input-group-text"><i class="icon-envelope-o"></i></span>
+                              <span class="input-group-text"><i class="icon-user"></i></span>
                             </div>
-                            <input type="text" value='<?php echo $name ?>' class="form-control" id="fname" placeholder="Full Name" name="fname" required>
+                            <input type="text" value='<?php echo $name ?>' class="form-control" id="fname" placeholder="Name" name="fname" required>
                             <?php echo '<span> '.$nameErr.' </span>'; ?>
                         </div>
                         <div class="input-group mb-3">
@@ -154,21 +157,15 @@ session_destroy();
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                              <span class="input-group-text"><i class="icon-envelope-o"></i></span>
+                              <span class="input-group-text">  <i class="icon-lock_outline" style="font-size: 113%;"></i>  </span>
                             </div>
-                            <input type="text" value='<?php echo $username ?>' class="form-control" id="username" placeholder="Enter Username" name="username" required>
-                        </div>
-                        <div class="input-group mb-3">
-                            <div class="input-group-prepend">
-                              <span class="input-group-text"><i class="icon-envelope-o"></i></span>
-                            </div>
-                            <input type="text" value='<?php echo $department ?>' class="form-control" id="department" placeholder="Enter Department" name="department">
+                            <input type="password" class="form-control" id="pwd" placeholder="Password" name="pswd" required>
                         </div>
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
                               <span class="input-group-text">  <i class="icon-lock_outline" style="font-size: 113%;"></i>  </span>
                             </div>
-                            <input type="password" class="form-control" id="pwd" placeholder="Enter password" name="pswd" required>
+                            <input type="password" class="form-control" id="conpwd" placeholder="Confirm password" name="conpswd" required>
                         </div>
                         <br>
                         <button type="submit" class="btn btn-primary">Submit</button>
@@ -179,8 +176,6 @@ session_destroy();
             </div>
         </section>
 	</main>
-
-
 </body>
 <script type="text/javascript" src="assets/js/custom.js"></script>
 <script type="text/javascript" src="assets/js/jquery.min.js"></script>

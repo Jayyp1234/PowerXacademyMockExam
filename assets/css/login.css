@@ -50,12 +50,14 @@ body{
     -webkit-padding: 0px !important;
 }
 main {
-  margin: 0% 5%;
-  height: 90%;
-  border-radius: 10px;
-  padding: 3% 5%;
-  box-shadow: 0 4px 50px 0 hsl(0deg 22% 11% / 20%);
-  background-image: url('../images/bg56.png');
+    margin: 0% 5%;
+    height: 90%;
+    border-radius: 10px;
+    padding: 3% 5%;
+    box-shadow: 0 4px 50px 0 hsl(0deg 22% 11% / 20%);
+    background-image: url(../images/bg56.png);
+    background-repeat: no-repeat;
+    background-position: top right;
   
 }
 main .back-key{
@@ -110,7 +112,7 @@ main .back{
     font-size: 15px;
 }
 .login-box .input-group-text {
-    color: #ba68c8;
+    color: #609e45;
     text-align: center;
     white-space: nowrap;
     background-color: #fbfbfb;
@@ -119,8 +121,8 @@ main .back{
 }
 .login-box .btn-primary {
     color: #fff;
-    background-color: #703e78;
-    border-color: #b264c0;
+    background-color: #2a620f;
+    border-color: #4c8b2f;
     margin: auto;
     display: flex;
     width: 90%;
@@ -129,8 +131,8 @@ main .back{
 }
 .login-box .btn-primary:hover, .login-box .btn-primary:active, .login-box .btn-primary:focus {
     color: #fff;
-    background-color: #703e78 !important;
-    border-color: #b264c0 !important;
+    background-color: #609e45 !important;
+    border-color: #609e45 !important;
     box-shadow: 0 4px 30px 0 hsl(292deg 33% 36% / 69%);
     width: 90%;
     justify-content: center;
@@ -144,7 +146,7 @@ main .back{
     display: block;
 }
 .login-box a, .login-box a:hover{
-    color: #a52db8;
+    color: #609e45;;
     text-align: center;
     margin-left: 10px;
 }
