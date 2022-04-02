@@ -11,7 +11,7 @@ if ($conn -> connect_error) {
 	die( "Connection to Database Failed");
 	# code...
 }
-$sql = "SELECT * FROM users";
+$sql = "SELECT * FROM user";
 $result = $conn->query($sql);
 
 

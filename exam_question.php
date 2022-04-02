@@ -98,7 +98,7 @@ font-family: system-ui;
             <span id="time" class="time"></span>
         </div>
         <br>
-            
+        <h6 class="text-center px-3">Insert Questions</h6>   
         <div class="d-flex align-items-start">
   <div class="nav flex-column mm nav-pills me-3" id="v-pills-tab" role="tablist" aria-orientation="vertical">
     <button class="nav-link active" id="v-pills-home-tab" data-bs-toggle="pill" data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">Insert Questions</button>
@@ -108,8 +108,9 @@ font-family: system-ui;
   </div>
   <div class="tab-content" id="v-pills-tabContent">
     <div class="tab-pane fade show active" id="v-pills-home" role="tabpanel" aria-labelledby="v-pills-home-tab">
-        <h6 class="text-center px-3">Insert Questions</h6>
-        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist">
+        
+        <ul class="nav nav-pills mb-3" id="pills-tab" role="tablist" style='align-items:center;'>
+          <b style="font-size: 15px;font-family: Open Sans Regular;margin-right: 10px;">Questions Type:</b>
           <li class="nav-item" role="presentation">
             <button class="nav-link active" id="pills-home-tab" data-bs-toggle="pill" data-bs-target="#pills-home" type="button" role="tab" aria-controls="pills-home" aria-selected="true">Mulitple Choice Question</button>
           </li>
@@ -175,8 +176,107 @@ font-family: system-ui;
                 </div>
             </form>
           </div>
-          <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">...</div>
-          <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">...</div>
+          <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
+          <form method="POST" enctype="multipart/form-data" action="backend_data/uploadques.php" class="container-fluid" style="background-color:white;border-radius:20px;">
+                <div class="row">
+                <div class="col-md-12">
+                <div class="mb-3">
+                    <label>Question</label>
+                    <textarea name="question" placeholder="Question - use underscore to create the gap."></textarea>
+                </div>
+                </div>
+                <div class="col-md-6">
+                <div class="mb-3">
+                    <label>Option A</label>
+                    <input type="text" name="a" id="exampleInputEmail1" placeholder="Option A">
+                </div>
+                </div>
+                <div class="col-md-6">
+                <div class="mb-3">
+                    <label>Option B</label>
+                    <input type="text" name="b" id="exampleInputEmail1" placeholder="Option B">
+                </div>
+                </div>
+                <div class="col-md-6">
+                <div class="mb-3">
+                    <label>Option C</label>
+                    <input type="text" name="c" id="exampleInputEmail1" placeholder="Option C">
+                </div>
+                </div>
+                <div class="col-md-6">
+                <div class="mb-3">
+                    <label>Option D</label>
+                    <input type="text" name="d" id="exampleInputEmail1" placeholder="Option D">
+                </div>
+                </div>
+                <div class="col-md-12">
+                <div class="mb-3">
+                    <label>Answer</label>
+                    <input type="text" name="answer" id="exampleInputEmail1" placeholder="Answer">
+                </div>
+                </div>
+                <div class="col-md-12">
+                <div class="mb-3">
+                    <label>Hint(optional)</label>
+                    <textarea placeholder="Hint"></textarea>
+                </div>
+                </div>
+                <input type="hidden" name="id" value=<?php echo $_GET["id"] ?> />
+                <button type="submit" class="btn">Submit</button>
+                </div>
+            </form>
+          </div>
+          <div class="tab-pane fade" id="pills-contact" role="tabpanel" aria-labelledby="pills-contact-tab">
+          <form method="POST" enctype="multipart/form-data" action="backend_data/uploadques.php" class="container-fluid" style="background-color:white;border-radius:20px;">
+                <div class="row">
+                <div class="col-md-12">
+                <div class="mb-3">
+                    <label>Question</label>
+                    <textarea name="question" placeholder="Question - use underscore to create the gap."></textarea>
+                </div>
+                </div>
+                <b style="font-size: 15px;font-family: Open Sans Regular;margin-right: 10px;">Comparasion Box</b>
+                <div class="col-md-6">
+                <div class="mb-3">
+                    <label>Option A</label>
+                    <input type="text" name="a" id="exampleInputEmail1" placeholder="Option A">
+                </div>
+                </div>
+                <div class="col-md-6">
+                <div class="mb-3">
+                    <label>Option B</label>
+                    <input type="text" name="b" id="exampleInputEmail1" placeholder="Option B">
+                </div>
+                </div>
+                <div class="col-md-6">
+                <div class="mb-3">
+                    <label>Option C</label>
+                    <input type="text" name="c" id="exampleInputEmail1" placeholder="Option C">
+                </div>
+                </div>
+                <div class="col-md-6">
+                <div class="mb-3">
+                    <label>Option D</label>
+                    <input type="text" name="d" id="exampleInputEmail1" placeholder="Option D">
+                </div>
+                </div>
+                <div class="col-md-12">
+                <div class="mb-3">
+                    <label>Answer</label>
+                    <input type="text" name="answer" id="exampleInputEmail1" placeholder="Answer">
+                </div>
+                </div>
+                <div class="col-md-12">
+                <div class="mb-3">
+                    <label>Hint(optional)</label>
+                    <textarea placeholder="Hint"></textarea>
+                </div>
+                </div>
+                <input type="hidden" name="id" value=<?php echo $_GET["id"] ?> />
+                <button type="submit" class="btn">Submit</button>
+                </div>
+            </form>
+          </div>
         </div>
     </div>
     <div class="tab-pane fade" id="v-pills-profile" role="tabpanel" aria-labelledby="v-pills-profile-tab">gbndrtgfv</div>
