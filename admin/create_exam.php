@@ -136,7 +136,7 @@ if(!isset($_SESSION['user_id'])){
     return $data;
   }
   if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if(!empty(test_input($_POST['title'])) && !empty(test_input($_POST['start'])) && !empty(test_input($_POST['finish'])) && !empty(test_input($_POST['type']))){
+    if(!empty(test_input($_POST['title'])) && !empty(test_input($_POST['start'])) && !empty(test_input($_POST['finish']))){
       $name = test_input($_POST['title']);
       $start = test_input($_POST['start']);
       $finish = test_input($_POST['finish']);
