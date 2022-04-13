@@ -12,7 +12,7 @@ if(!isset($_SESSION['user_id'])){
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Power X Academy - Create Exam </title>
+  <title>PowerX Academy - Create Exam </title>
   <meta content="" name="description">
   <meta content="" name="keywords">
   <link rel="icon" href="../assets/image/icon.png" type="type/png">
@@ -304,8 +304,8 @@ if(!isset($_SESSION['user_id'])){
                          
                          $output .="<tr>
                          <td>".$row['title']."</td>
-                         <td>".$row['start_time']."</td>
-                         <td>".$row['close_time']."</td>
+                         <td>".date('Y-m-d h:i:s', strtotime($row['start_time']))."</td>
+                         <td>".date('Y-m-d h:i:s', strtotime($row['close_time']))."</td>
                          <td>".$row['duration']." Minutes</td>
                          <td>".$row['length']."</td>
                          <td>".$row['type']."</td>
@@ -332,80 +332,12 @@ if(!isset($_SESSION['user_id'])){
               </div> <!-- table-responsive end// -->
             </div> <!-- card-body end// -->
           </div> <!-- card end// -->
-          <!--
-        <div class="row">
-            <?php
-                function pub($data){
-                    include '../backend_data/init.php';
-                    $newdata = "SELECT * FROM `exams` WHERE id = '$data' ";
-                    $resulte = $conn->query($newdata);
-                    if ($resulte->num_rows > 0) {
-                        // output data of each row
-                        while($row = $resulte->fetch_assoc()) {
-                            $result = $row['upload'];
-                        }
-                        if ($result == 'yes'){
-                            return '<a href="upload_result_id.php?id='.$data.'"> <button class="btn" style="right:150px;">Upload Result</button></a>';
-                        }
-                        else{
-                            
-                            return '<a href="exam_question.php?id='.$data.'"> <button class="btn" style="right:150px;">Upload Questions</button></a>';
-                        }
-                    }
-                }
-            
-                include '../backend_data/init.php';
-                $newdata = "SELECT * FROM `exams` WHERE published = 'no' ";
-                $resulte = $conn->query($newdata);
-                if ($resulte->num_rows > 0) {
-                // output data of each row
-                while($row = $resulte->fetch_assoc()) {
-                  echo '
-                  <div class="col-lg-6 col-md-12 course-data">
-                  <div class="courses-container">
-                       <div class="course">
-                           <div class="course-preview">
-                               <h6>Type : '.$row["type"].' </h6>
-                               <h2>'.$row["title"].'</h2>
-                           </div>
-                           <div class="course-info">
-                               <div style="display:flex;justify-content:space-between;align-items:center;">
-                                   <h6 style="display:flex;align-items:center;"><i class="icon-calendar"></i>'.$row["start_time"].'</h6>
-                                   <h6><i class="icon-arrow-right"></i></h6>
-                                   <h6 style="display:flex;align-items:center;"><i class="icon-calendar"></i>'.$row["close_time"].'</h6>
-                               </div>
-                               <div style="display:flex;justify-content:space-between;align-items:center;">
-                                   <h6 style="display:flex;align-items:center;"><i class="icon-clock-o"></i>'.$row["duration"].' min </h6>
-                                   <h6 style="display:flex;align-items:center;"><i class="icon-question-circle"></i>'.$row["length"].' questions </h6>
-                               </div>
-                               <div style="display:flex;justify-content:space-between;align-items:center;">
-                                   <h6 style="display:flex;align-items:center;"><i class="icon-users"></i> 50 Enrolled </h6>
-                               </div>
-                               <br><br>'.pub($row["id"]).'
-                               
-                               <a href="course_id.php?id='.$row["id"].'"> <button class="btn">Delete Exam</button></a>
-                           </div>
-                       </div>
-                   </div> 
-               </div>
-                ';
-                }
-              }else{
-                echo  '
-                <div style="display:flex;width:100%;justify-content:center;background-color:white;width:200px;height:150px;align-items:center;border-radius:20px;margin:auto;box-shadow:0 10px 10px rgb(0 0 0 / 20%);">
-                <a href="#"><button type="button" style="background-color: #408e3a;
-                border: 1px solid;font-size: 13px;font-weight: 600;font-family:Open Sans SemiBold;" class="btn btn-primary">No Exam Available</button></a>';
-              }
-            ?>
-            
-        </div>
-            -->
         </div>
         <div class="tab-pane fade" id="pills-profile" role="tabpanel" aria-labelledby="pills-profile-tab">
         <div class="card mb-4">
             <div class="card-body">
               <div class="table-responsive">
-                <table id="example2" class="display" style="width:100%">
+                <table id="example2" class="display dataTable" style="width:100%">
                   <?php
                 include '../backend_data/init.php';
                 $sql = "SELECT * FROM `exams` WHERE published = 'yes'";
@@ -429,8 +361,8 @@ if(!isset($_SESSION['user_id'])){
                          
                          $output .="<tr>
                          <td>".$row['title']."</td>
-                         <td>".$row['start_time']."</td>
-                         <td>".$row['close_time']."</td>
+                         <td>".date('Y-m-d h:i:s', strtotime($row['start_time']))."</td>
+                         <td>".date('Y-m-d h:i:s', strtotime($row['close_time']))."</td>
                          <td>".$row['duration']." Minutes</td>
                          <td>".$row['length']."</td>
                          <td>".$row['type']."</td>

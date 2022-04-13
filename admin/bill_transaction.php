@@ -12,7 +12,7 @@ if(!isset($_SESSION['user_id'])){
 <head>
     <meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-    <title>Power X Academy - Create Exam </title>
+    <title>Power X Academy - Bill Transactions </title>
     <meta content="" name="description">
     <meta content="" name="keywords">
     <link rel="icon" href="../assets/image/icon.png" type="type/png">
@@ -157,16 +157,40 @@ if(!isset($_SESSION['user_id'])){
                         <span class="text">Students</span>
                     </a>
                 </li>
-                <li class="menu-item has-submenu active">
-                    <a class="menu-link" href="#"> <i class="icon material-icons md-book"></i>
-                        <span class="text">Assessments</span>
-                    </a>
-                    <div class="submenu">
-                        <a href="exams.php">Exams</a>
-                        <a href="create_exam.php">Generate Exam for Students</a>
-                        <a href="upload_result.php">Upload Results</a>
-                    </div>
-                </li>
+                <!--
+    <li class="menu-item has-submenu"> 
+      <a class="menu-link" href="card.php"> <i class="icon material-icons md-book"></i>  
+        <span class="text">Assessments</span> 
+      </a> 
+      <div class="submenu">
+        <a href="exams.php">Exams</a>
+        <a href="create_exam.php">Generate Exam for Students</a>
+        <a href="upload_result.php">Upload Results</a>
+      </div>
+    </li>
+    -->
+    <li class="menu-item has-submenu active"> 
+      <a class="menu-link" href="card.php"> <i class="icon material-icons md-payment"></i>  
+        <span class="text">Payments and Bill</span> 
+      </a> 
+      <div class="submenu">
+        <a href="bills.php">Bills</a>
+        <a href="bill_student.php">Student Bill</a>
+        <a href="bill_transaction.php">Transactions</a>
+      </div>
+    </li>
+    <li class="menu-item has-submenu "> 
+      <a class="menu-link" href="card.php"> <i class="icon material-icons md-book"></i>  
+        <span class="text">Results</span> 
+      </a> 
+      <div class="submenu">
+        <a href="assement-result/generate.php">Generate Exam Results</a>
+        <a href="assement-result/upload.php">Upload Exam Results</a>
+        <a href='assement-result/generatem.php'>Generate Mid Term Results </a>
+        <a href="assement-result/upload_mid.php">Upload Mid Term Results</a>
+        
+      </div>
+    </li>
             </ul>
             <hr>
             <ul class="menu-aside">
@@ -226,8 +250,6 @@ if(!isset($_SESSION['user_id'])){
         </header>
         <?php
   include '../backend_data/init.php';
-  $name = $email = $username = $password = $department = '';
-  $nameErr = $emailErr = $errormessage = '';
   function test_input($data) {
     $data = trim($data);
     $data = stripslashes($data);
@@ -235,26 +257,14 @@ if(!isset($_SESSION['user_id'])){
     return $data;
   }
   if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if(!empty(test_input($_POST['score']))  ){
-      $score = test_input($_POST['score']);
-      $id = $_GET["id"];
-      $user_id = test_input($_POST['id']);
-      $insertdetails = "INSERT INTO `results`(`id`, `exam_id`, `user_id`, `score`) VALUES ('','$id','$user_id','$score')";
-        if($conn->query($insertdetails)){
-            header('Location: upload_result_id.php?id='.$id);
-            ob_end_flush();
-        }
-         else {
-            echo "Record Not Succesful";
-          }
-      }
-      else {
-        $id = $_GET["id"];
-        $user_id = test_input($_POST['id']);
-        $score = test_input($_POST['score_update']);
-        $sql = "UPDATE `results` SET `score`='$score' WHERE exam_id = '$id' and user_id = '$user_id'";
+    if(!empty(test_input($_POST['price']))  ){
+        $id = $_POST["id"];
+        $name = test_input($_POST['name']);
+        $price = test_input($_POST['price']);
+        $span = test_input($_POST['span']);
+        $sql = "UPDATE `classes` SET `name`='$name', `price`= '$price', `span`='$span' WHERE id = '$id'";
         if($conn->query($sql)){
-            header('Location: upload_result_id.php?id='.$id);
+            header('Location: bills.php');
             ob_end_flush();
         }
          else {
@@ -267,7 +277,7 @@ if(!isset($_SESSION['user_id'])){
         <section class="content-main">
             <div style="display:flex;justify-content:space-between;flex-wrap:wrap;">
                 <div class="content-header" style="margin-bottom:0">
-                    <h4> Upload Results</h4>
+                    <h4> Transactions</h4>
                 </div>
             </div>
             <div class="card mb-4">
@@ -275,112 +285,33 @@ if(!isset($_SESSION['user_id'])){
                     <div class="table-responsive">
                         <table id="example" class="display" style="width:100%">
                             <?php
-                 function pub($data,$data1){
-                    include '../backend_data/init.php';
-                    $newdata = "SELECT * FROM `results` WHERE exam_id = '$data' and user_id = '$data1' ";
-                    $resulte = $conn->query($newdata);
-                    if ($resulte->num_rows > 0) {
-                        // output data of each row
-                        while($row = $resulte->fetch_assoc()) {
-                            $result = $row['score'];
-                        }
-                        return $result;
-                    }
-                    else{
-                        return 0;
-                    }
-                }
-                function pub2($data,$data1,$data2){
-                    include '../backend_data/init.php';
-                    $newdata = "SELECT * FROM `results` WHERE exam_id = '$data' and user_id = '$data1' ";
-                    $resulte = $conn->query($newdata);
-                    if ($resulte->num_rows > 0) {
-                        // output data of each row
-                        while($row = $resulte->fetch_assoc()) {
-                            $result = $row['score'];
-                        }
-                        return "<a class='dropdown-item' href='#' data-bs-toggle='modal' data-bs-target='#exampleModal".$data1."'>Update Result</a>
-                        </div>
-                    </div> <!-- dropdown //end -->
-                </td> 
-                   </tr>
-                  <div class='modal fade' id='exampleModal".$data1."' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>
-                  <div class='modal-dialog'>
-                      <div class='modal-content'>
-                      <div class='modal-header'>
-                          <h5 class='modal-title' id='exampleModal".$data1."Label'>Update ".$data2." Score</h5>
-                          <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
-                      </div>
-                      <div class='modal-body'>
-                      <form method='POST'>
-                      <input type='hidden' name='id' value='".$data1."'>
-                      <div class='mb-3'>
-                          <label class='form-label'>Score</label>
-                          <input type=text' name='score_update' class='form-control'>
-                      </div>
-                      <button type='submit' class='btn btn-primary'>Submit</button>
-                      </form>
-                      </div>
-                      </div>
-                  </div>
-                  </div>";
-                    }
-                    else{
-                        return "<a class='dropdown-item' href='#' data-bs-toggle='modal' data-bs-target='#exampleModal".$data1."'>Upload Result</a>
-                        </div>
-                    </div> <!-- dropdown //end -->
-                </td> 
-                   </tr>
-                  <div class='modal fade' id='exampleModal".$data1."' tabindex='-1' aria-labelledby='exampleModalLabel' aria-hidden='true'>
-                  <div class='modal-dialog'>
-                      <div class='modal-content'>
-                      <div class='modal-header'>
-                          <h5 class='modal-title' id='exampleModal".$data1."Label'>".$data2." Score</h5>
-                          <button type='button' class='btn-close' data-bs-dismiss='modal' aria-label='Close'></button>
-                      </div>
-                      <div class='modal-body'>
-                      <form method='POST'>
-                      <input type='hidden' name='id' value='".$data1."'>
-                      <div class='mb-3'>
-                          <label class='form-label'>Score</label>
-                          <input type=text' name='score' class='form-control'>
-                      </div>
-                      <button type='submit' class='btn btn-primary'>Submit</button>
-                      </form>
-                      </div>
-                      </div>
-                  </div>
-                  </div>";
-                    }
-                }
+                
                 include '../backend_data/init.php';
 
-                $sql = "SELECT * FROM `users` WHERE class = 'University'";
+                $sql = "SELECT * FROM transaction INNER JOIN users ON transaction.user_id = users.id";
                 $query = mysqli_query($conn,$sql);
                  if($query){
                      if(mysqli_num_rows($query) > 0){
                          
                          $output = "<thead>
                          <tr>
-                             <th>Names</th>
-                             <th>Score</th>
-                             <th>Action</th>
+                             <th>Student Name</th>
+                             <th>Class</th>
+                             <th>Title</th>
+                             <th>Price</th>
                          </tr>
                      </thead><tbody>";
                      while($row = mysqli_fetch_assoc($query)){
-                         
                          $output .="<tr>
-                         <td>".$row['name']."</td>
-                         <td>".pub($_GET['id'],$row['id'])."</td>
-                         <td class='text-end'> 
-          				<div class='dropdown'>
-          					<a href='#' data-bs-toggle='dropdown' class='btn btn-light'> <i class='material-icons md-more_horiz'></i> </a> 
-          					<div class='dropdown-menu'>
-                              ".pub2($_GET['id'],$row['id'], $row['name'])."
-                         ";
+                         <td>".strtoupper($row['name'])."</td>
+                         <td>".strtoupper($row['title'])."</td>
+                         <td>".strtoupper($row['class'])."</td>
+                         <td>".number_format($row['price'])."</td>
+                          
+                   </tr>";
                      }
                  }else{
-                     $output = '<b>You do not have any Exams</b>';
+                     $output = '<b>You do not have any Transactions Yet</b>';
                  }
                  echo $output."</tbody>";
                  }

@@ -33,7 +33,7 @@ if (isset($_SESSION['user_id'])) {
 <head>
 	<meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-	  <title>Power X Academy - Login</title>
+	  <title>PowerX Online Academy - Login</title>
 	  <meta content="" name="description">
   	<meta content="" name="keywords">
     <link rel="icon" href="../assets/image/icon.png" type="type/png">
@@ -73,10 +73,19 @@ if (isset($_SESSION['user_id'])) {
           $_SESSION['name'] = $row["name"];
           $_SESSION['email'] = $row["email"];
           $_SESSION['role'] = $row["role"];
+          $_SESSION['class'] = $row["class"];
+          $status = $row["payment_status"];
         }
+        
         if($_SESSION['role'] == 'user'){
-          header('Location: ../dashboard/');
-          ob_end_flush();
+          if($status != 'paid'){
+            header('Location:../checkout.php?id='.$_SESSION['user_id']);
+            ob_end_flush();
+          }
+          else{
+            header('Location: ../dashboard/');
+            ob_end_flush();
+          }
         }
         else if($_SESSION['role'] == 'admin'){
           header('Location: ../admin/dashboard.php');
@@ -100,7 +109,7 @@ if (isset($_SESSION['user_id'])) {
   <form method="POST" class="needs-validation form" novalidate>
     <img src="../assets/image/icon.png" />
     <?php echo $errormessage ?>
-    <h3>Log In to Power X Academy</h3>
+    <h3>Log In to PowerX Online Academy</h3>
     <span>Enter your email and password below</span>
 
     <br>
@@ -124,7 +133,10 @@ if (isset($_SESSION['user_id'])) {
     </div>  
     <div style="margin-top:8px;display:flex;justify-content:center;">
     <span class="ll">Don’t have an account? </span> <a href="../register" class="tt">Sign up</a>
-    </div>               
+    </div>       
+    <div style="margin-top:0px;display:flex;justify-content:center;">
+        <span class="ll">Forgot Password? </span> <a href="../forgot_password" class="tt">Click Here</a>
+      </div>        
   </form>
 </div>
 	</main>

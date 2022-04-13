@@ -1,6 +1,6 @@
 <?php 
 
-$servername = $_SERVER['SERVER_NAME'];
+$servername = 'localhost';
 $username = 'root';
 $password = '';
 $dbname = 'powerx';
@@ -11,8 +11,5 @@ if ($conn -> connect_error) {
 	die( "Connection to Database Failed");
 	# code...
 }
-$sql = "SELECT * FROM user";
-$result = $conn->query($sql);
-
 
 ?>

@@ -135,5 +135,13 @@ font-weight:500;
 table tr th{
     color: #6B6F7B !important;
     font-weight: 400 !important;
-    font-size: 16px !important;
+    font-size: 15px !important;
+    white-space: nowrap !important;
+    font-family: 'Open Sans Regular' !important;
+}
+table tr td{
+  font-size: 13px !important;
+    white-space: nowrap !important;
+    font-family: 'Open Sans Regular' !important;
+    font-weight: 600 !important;
 }

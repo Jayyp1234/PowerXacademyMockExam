@@ -1,0 +1,7 @@
+[05-Apr-2022 19:08:59 UTC] PHP Notice:  Undefined index: name in /home/powerxac/public_html/instructor/dashboard.php on line 149
+[05-Apr-2022 19:08:59 UTC] PHP Notice:  Undefined index: email in /home/powerxac/public_html/instructor/dashboard.php on line 150
+[05-Apr-2022 19:08:59 UTC] PHP Notice:  Undefined index: name in /home/powerxac/public_html/instructor/dashboard.php on line 168
+[05-Apr-2022 19:09:00 UTC] PHP Notice:  Undefined index: name in /home/powerxac/public_html/instructor/student.php on line 203
+[05-Apr-2022 19:09:00 UTC] PHP Notice:  Undefined index: email in /home/powerxac/public_html/instructor/student.php on line 204
+[05-Apr-2022 19:09:00 UTC] PHP Notice:  Undefined index: name in /home/powerxac/public_html/instructor/create_exam.php on line 178
+[05-Apr-2022 19:09:00 UTC] PHP Notice:  Undefined index: email in /home/powerxac/public_html/instructor/create_exam.php on line 179

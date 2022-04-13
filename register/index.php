@@ -7,7 +7,7 @@ session_start();
 <head>
   <meta charset="utf-8">
   <meta content="width=device-width, initial-scale=1.0" name="viewport">
-  <title>Marasoft - Register</title>
+  <title>PowerX Online Academy - Register</title>
   <meta content="" name="description">
   <meta content="" name="keywords">
   <link rel="icon" href="../assets/image/icon.png" type="type/png">
@@ -33,6 +33,19 @@ session_start();
     $data = htmlspecialchars($data);
     return $data;
   }
+  function createKey() { 
+    $chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ023456789"; 
+    srand((double)microtime()*1000000); 
+    $i = 0; 
+    $pass = '' ; 
+    while ($i <= 10) { 
+        $num = rand() % 33; 
+        $tmp = substr($chars, $num, 1); 
+        $pass = $pass . $tmp; 
+        $i++; 
+        } 
+         return $pass; 
+    }
   function confirmemail($data){
     include '../backend_data/init.php';
     $emailval = "SELECT * FROM users WHERE email = '$data' ";
@@ -64,35 +77,33 @@ session_start();
       $loginemail = test_input($_POST['login_email']);
       $password = test_input($_POST['login_password']);
       $password1 = test_input($_POST['login_conpassword']);
+      $key = createKey();
       if (!preg_match("/^[a-zA-Z ]*$/", $name)) {
         $errormessage .='<div class="alert alert-warning alert-dismissible fade show" role="alert">
           Only letters and white space allowed
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>';
       }
       else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
         $errormessage .='<div class="alert alert-warning alert-dismissible fade show" role="alert">
           Invalid email address
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>';
       }
       else if(!confirmemail($email)){
         $errormessage .='<div class="alert alert-warning alert-dismissible fade show" role="alert">
           Email address already exists.
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>';
       }
       else if($password != $password1){
         $errormessage .='<div class="alert alert-warning alert-dismissible fade show" role="alert">
-          Passwords does not match, please try again.
-          <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
-        </div>';
+          Passwords does not match, please try again.</div>';
       }
       else {
           $nameErr = $emailErr= '';
-          $insertdetails = "INSERT INTO `users`(`id`, `name`, `email`, `password`, `gender`, `religion`, `address`, `phoneno`, `city`, `state`, `country`, `class`, `image`, `section`, `login_username`, `login_email`, `activity`, `role`) 
+          $insertdetails = "
+          INSERT INTO `users`(`id`, `name`, `student_id`, `email`, `password`, `gender`, `religion`, `address`, `phoneno`, `city`, `state`, `country`, `class`, `image`, `section`, `login_username`, `login_email`, `activity`, `role`, `payment_time`, `expiry_time`, `payment_status`) 
           VALUES 
-          ('','$name','$email','$password','$gender','$religion','$address','$phoneno','$city','$state','$country','$class','','','$loginname','$loginemail','','user')";
+          ('','$name','$key','$email','$password','$gender','$religion','$address','$phoneno','$city','$state','$country','$class','','','$loginname','$loginemail','','user','0','0','owing')";
+          print_r($insertdetails);
           if($conn->query($insertdetails)){
             echo $name;
             $sql = "SELECT * FROM users where name ='$name' ";
@@ -105,8 +116,9 @@ session_start();
                   $_SESSION['role'] = $row["role"];
                 }
                 if($_SESSION['role'] == 'user'){
-                  header('Location:../dashboard/');
+                  header('Location:../checkout.php?id='.$_SESSION['user_id']);
                   ob_end_flush();
+                  
                 }
                 else if($_SESSION['role'] == 'admin'){
                   header('Location:..admin/dashboard/');
@@ -137,7 +149,7 @@ session_start();
       <form method="POST" class="needs-validation form" novalidate id="wlsm-submit-registration-form">
         <img src="../assets/image/icon.png" />
         <?php echo $errormessage ?>
-        <h3>Online Registration</h3>
+        <h3>PowerX Online Academy Registration</h3>
         <span>PowerX Academy Digital Campus</span>
         <div class="wlsm-form-section">
           <div class="wlsm-row">
@@ -256,60 +268,22 @@ session_start();
               <label for="wlsm_school_class" class="wlsm-font-bold">
                 <span class="wlsm-important">*</span> Class:
               </label>
+              
               <select name="class_id" class="wlsm-form-control" data-nonce="25b0b16706" id="wlsm_school_class">
                 <option value="">Select Class</option>
-                <option value="Grade 1">
-                  Grade 1 </option>
-                <option value="Grade 2">
-                  Grade 2 </option>
-                <option value="Grade 3">
-                  Grade 3 </option>
-                <option value="Grade 4">
-                  Grade 4 </option>
-                <option value="Grade 5">
-                  Grade 5 </option>
-                <option value="Grade 6">
-                  Grade 6 </option>
-                <option value="Grade 7">
-                  Grade 7 </option>
-                <option value="Grade 8">
-                  Grade 8 </option>
-                <option value="Grade 9">
-                  Grade 9 </option>
-                <option value="Grade 10">
-                  Grade 10 </option>
-                <option value="Grade 11">
-                  Grade 11 </option>
-                <option value="Grade 12">
-                  Grade 12 </option>
-                <option value="College">
-                  College </option>
-                <option value="University">
-                  University </option>
-                <option value="Vocational Course">
-                  Vocational Course </option>
-                <option value="Professional Course">
-                  Professional Course </option>
-                <option value="Others">
-                  Others </option>
-                <option value="Qur’an (Boys)">
-                  Qur’an (Boys) </option>
-                <option value="Qur’an (Girls)">
-                  Qur’an (Girls) </option>
-                <option value="Arabic (Beginners)">
-                  Arabic (Beginners) </option>
-                <option value="Arabic (Advanced)">
-                  Arabic (Advanced) </option>
-                <option value="Physics">
-                  Physics </option>
-                <option value="Chemistry">
-                  Chemistry </option>
-                <option value="Biology">
-                  Biology </option>
-                <option value="Coding &amp; STEM Course">
-                  Coding &amp; STEM Course </option>
-                <option value="Business &amp; Investment Coaching">
-                  Business &amp; Investment Coaching </option>
+                <?php
+                include '../backend_data/init.php';
+                $sql = "SELECT * FROM classes ORDER BY title ASC";
+                $query = mysqli_query($conn,$sql);
+                if($query){
+                    if(mysqli_num_rows($query) > 0){
+                        while($row = mysqli_fetch_assoc($query)){
+                            echo '<option value="'.$row['title'].'">'.$row['title'].'</option>';
+                        }
+                    }
+                }
+                
+            ?>
 
               </select>
             </div>
@@ -382,6 +356,7 @@ session_start();
       <div style="margin-top:8px;display:flex;justify-content:center;">
         <span class="ll">Already have an account? </span> <a href="../login" class="tt">Log In</a>
       </div>
+      
       </form>
       <br><br>
     </div>

@@ -11,8 +11,8 @@ if(!isset($_SESSION['user_id'])){
 <head>
 	<meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-	  <title>Power X Academy - Instructors</title>
-	  <meta content="" name="description">
+	<title>PowerX Academy - Instructors</title>
+	<meta content="" name="description">
   	<meta content="" name="keywords">
     <link rel="icon" href="../assets/image/icon.png" type="type/png">
   	<!--icons link-->
@@ -150,6 +150,7 @@ if(!isset($_SESSION['user_id'])){
         <span class="text">Students</span> 
       </a> 
     </li>
+    <!--
     <li class="menu-item has-submenu"> 
       <a class="menu-link" href="card.php"> <i class="icon material-icons md-book"></i>  
         <span class="text">Assessments</span> 
@@ -158,6 +159,29 @@ if(!isset($_SESSION['user_id'])){
         <a href="exams.php">Exams</a>
         <a href="create_exam.php">Generate Exam for Students</a>
         <a href="upload_result.php">Upload Results</a>
+      </div>
+    </li>
+    -->
+    <li class="menu-item has-submenu"> 
+      <a class="menu-link" href="card.php"> <i class="icon material-icons md-payment"></i>  
+        <span class="text">Payments and Bill</span> 
+      </a> 
+      <div class="submenu">
+        <a href="bills.php">Bills</a>
+        <a href="bill_student.php">Student Bill</a>
+        <a href="bill_transaction.php">Transactions</a>
+      </div>
+    </li>
+    <li class="menu-item has-submenu "> 
+      <a class="menu-link" href="card.php"> <i class="icon material-icons md-book"></i>  
+        <span class="text">Results</span> 
+      </a> 
+      <div class="submenu">
+        <a href="assement-result/generate.php">Generate Exam Results</a>
+        <a href="assement-result/upload.php">Upload Exam Results</a>
+        <a href='assement-result/generatem.php'>Generate Mid Term Results </a>
+        <a href="assement-result/upload_mid.php">Upload Mid Term Results</a>
+        
       </div>
     </li>
   </ul>
@@ -207,20 +231,102 @@ if(!isset($_SESSION['user_id'])){
         <b style="font-size: 12px;font-weight: 700;font-family: system-ui;line-height: 15px;color: #222133;"><?php echo $_SESSION['name']; ?></b>
         <span style="font-size: 11px;font-weight: 500;color: #7C7C7A;font-family: system-ui;"><?php echo $_SESSION['email']; ?></span>
       </li>
-      <li class="nav-item">
-        <a class="nav-link abb" href="#"> OE </a>
-      </li>
-
     </ul> 
   </div>
 	</header>
 
 <section class="content-main">
-    <div style="display:flex;justify-content:space-between;flex-wrap:wrap;">
-        <div class="content-header">
+    <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:20px;">
             <h4>  Instructors </h4>
-	    </div>
-        
+            <!--
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Add Instructor</button>      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLabel">New message</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <form>
+          <div class="mb-3">
+            <label for="recipient-name" class="col-form-label">Recipient:</label>
+            <input type="text" class="form-control" id="recipient-name">
+          </div>
+          <div class="mb-3">
+            <label for="recipient-name" class="col-form-label">Email:</label>
+            <input type="text" class="form-control" id="recipient-name">
+          </div>
+          <div class="mb-3">
+            <label for="recipient-name" class="col-form-label">Class:</label>
+            <select name="class_id" class="form-control" data-nonce="25b0b16706" id="wlsm_school_class">
+                <option value="">Select Class</option>
+                <option value="Grade 1">
+                  Grade 1 </option>
+                <option value="Grade 2">
+                  Grade 2 </option>
+                <option value="Grade 3">
+                  Grade 3 </option>
+                <option value="Grade 4">
+                  Grade 4 </option>
+                <option value="Grade 5">
+                  Grade 5 </option>
+                <option value="Grade 6">
+                  Grade 6 </option>
+                <option value="Grade 7">
+                  Grade 7 </option>
+                <option value="Grade 8">
+                  Grade 8 </option>
+                <option value="Grade 9">
+                  Grade 9 </option>
+                <option value="Grade 10">
+                  Grade 10 </option>
+                <option value="Grade 11">
+                  Grade 11 </option>
+                <option value="Grade 12">
+                  Grade 12 </option>
+                <option value="College">
+                  College </option>
+                <option value="University">
+                  University </option>
+                <option value="Vocational Course">
+                  Vocational Course </option>
+                <option value="Professional Course">
+                  Professional Course </option>
+                <option value="Others">
+                  Others </option>
+                <option value="Qur’an (Boys)">
+                  Qur’an (Boys) </option>
+                <option value="Qur’an (Girls)">
+                  Qur’an (Girls) </option>
+                <option value="Arabic (Beginners)">
+                  Arabic (Beginners) </option>
+                <option value="Arabic (Advanced)">
+                  Arabic (Advanced) </option>
+                <option value="Physics">
+                  Physics </option>
+                <option value="Chemistry">
+                  Chemistry </option>
+                <option value="Biology">
+                  Biology </option>
+                <option value="Business &amp; Investment Coaching">
+                  Business &amp; Investment Coaching </option>
+
+              </select>
+          </div>
+          <div class="mb-3">
+            <label for="recipient-name" class="col-form-label">Password:</label>
+            <input type="password" class="form-control" id="recipient-password">
+          </div>
+          
+        </form>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Create</button>
+      </div>
+    </div>-->
+  </div>
+</div>
     </div>
 	<div class="card mb-4">
           <div class="card-body">
@@ -253,7 +359,7 @@ if(!isset($_SESSION['user_id'])){
                          </tr>";
                      }
                  }else{
-                     $output = '<b>You do not have any  Instructors</b>';
+                     $output = '<b>You do not have any Instructors</b>';
                  }
                  echo $output."</tbody>";
                  }

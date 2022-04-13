@@ -135,25 +135,25 @@ if(!isset($_SESSION['user_id'])){
 
 <nav>
   <ul class="menu-aside">
-    <li class="menu-item "> 
+    <li class="menu-item"> 
       <a class="menu-link" href="dashboard.php"> <i class="icon material-icons md-show_chart"></i> 
         <span class="text">Dashboard</span> 
       </a> 
     </li>
-
     <li class="menu-item active">
       <a class="menu-link" href="student.php"> <i class="icon material-icons md-person_outline"></i> 
         <span class="text">Students</span> 
       </a> 
     </li>
-    <li class="menu-item has-submenu"> 
+    <li class="menu-item has-submenu "> 
       <a class="menu-link" href="card.php"> <i class="icon material-icons md-book"></i>  
-        <span class="text">Assessments</span> 
+        <span class="text">Results</span> 
       </a> 
       <div class="submenu">
-        <a href="exams.php">Exams</a>
-        <a href="create_exam.php">Generate Exam for Students</a>
-        <a href="upload_result.php">Upload Results</a>
+        <a href="assement-result/generate.php">Generate Exam Results</a>
+        <a href="assement-result/upload.php">Upload Exam Results</a>
+        <a href='assement-result/generatem.php'>Generate Mid Term Results </a>
+        <a href="assement-result/upload_mid.php">Upload Mid Term Results</a>
       </div>
     </li>
   </ul>
@@ -177,52 +177,53 @@ if(!isset($_SESSION['user_id'])){
 </aside>
 
 <main class="main-wrap">
-	<header class="main-header navbar">
-		<div class="col-search">
-			<form class="searchform">
-				<div class="input-group">
-                <button class="btn btn-light bg pip2" type="button"> <i class="material-icons md-search"></i> </button>
-				  <input type="text" class="form-control pip" placeholder="Search...">
-				</div>
-			</form>
-		</div>
-		<div class="col-nav">
-     <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"> <i class="md-28 material-icons md-menu"></i> </button>
-     <ul class="nav">
-      <li class="nav-item">
-          <a class="nav-link btn-icon" onclick="darkmode(this)" title="Dark mode" href="#"> <i class="material-icons md-nights_stay"></i> </a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link btn-icon abb" style="border-radius:50%;" href="#"> <i class="material-icons md-notifications_active"></i> </a>
-      </li>
-      <li class="nav-item" style="display: flex;
+    <header class="main-header navbar">
+      <div class="col-search">
+        <form class="searchform">
+          <div class="input-group">
+            <button class="btn btn-light bg pip2" type="button"> <i class="material-icons md-search"></i> </button>
+            <input type="text" class="form-control pip" placeholder="Search...">
+          </div>
+        </form>
+      </div>
+      <div class="col-nav">
+        <button class="btn btn-icon btn-mobile me-auto" data-trigger="#offcanvas_aside"> <i
+            class="md-28 material-icons md-menu"></i> </button>
+        <ul class="nav">
+          <li class="nav-item">
+            <a class="nav-link btn-icon" onclick="darkmode(this)" title="Dark mode" href="#"> <i
+                class="material-icons md-nights_stay"></i> </a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link btn-icon abb" style="border-radius:50%;" href="#"> <i
+                class="material-icons md-notifications_active"></i> </a>
+          </li>
+          <li class="nav-item" style="display: flex;
     flex-direction: column;
     text-align: end;
     height: 30px;
     margin: 8px;">
-        <b style="font-size: 12px;font-weight: 700;font-family: system-ui;line-height: 15px;color: #222133;"><?php echo $_SESSION['name']; ?></b>
-        <span style="font-size: 11px;font-weight: 500;color: #7C7C7A;font-family: system-ui;"><?php echo $_SESSION['email']; ?></span>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link abb" href="#"> OE </a>
-      </li>
+            <b
+              style="font-size: 12px;font-weight: 700;font-family: system-ui;line-height: 15px;color: #222133;"><?php echo $_SESSION['name']; ?></b>
+            <span
+              style="font-size: 11px;font-weight: 500;color: #7C7C7A;font-family: system-ui;"><?php echo $_SESSION['email']; ?></span>
+          </li>
+        </ul>
+      </div>
+    </header>
 
-    </ul> 
-  </div>
-	</header>
-
-<section class="content-main">
-    <div style="display:flex;justify-content:space-between;flex-wrap:wrap;">
+    <section class="content-main">
+      <div style="display:flex;justify-content:space-between;flex-wrap:wrap;">
         <div class="content-header">
-            <h4> Students </h4>
-	    </div>
-        
-    </div>
-	<div class="card mb-4">
-          <div class="card-body">
-          	<div class="table-responsive">
-          	<table id="example" class="display" style="width:100%">
-            <?php
+          <h4> Students </h4>
+        </div>
+
+      </div>
+      <div class="card mb-4">
+        <div class="card-body">
+          <div class="table-responsive">
+            <table id="example" class="display" style="width:100%">
+              <?php
                 include '../backend_data/init.php';
                 $sql = "SELECT * FROM users where role = 'user' ORDER BY id DESC  ";
                 $query = mysqli_query($conn,$sql);
@@ -266,38 +267,39 @@ if(!isset($_SESSION['user_id'])){
                  }
                 
                 ?>
-          </table>
-          	</div> <!-- table-responsive end// -->
-          </div> <!-- card-body end// -->
-    </div> <!-- card end// -->
+            </table>
+          </div> <!-- table-responsive end// -->
+        </div> <!-- card-body end// -->
+      </div> <!-- card end// -->
 
-</section> <!-- content-main end// -->
-</main>
+    </section> <!-- content-main end// -->
+  </main>
 
-<script type="text/javascript">
-	if(localStorage.getItem("darkmode")){
-		var body_el = document.body;
-		body_el.className += 'dark';
-	}
-</script>
+  <script type="text/javascript">
+    if (localStorage.getItem("darkmode")) {
+      var body_el = document.body;
+      body_el.className += 'dark';
+    }
+  </script>
 
 
-<script type="text/javascript" src="../assets/js/custom.js"></script>
-<script type="text/javascript" src="../assets/js/jquery.min.js"></script>
-<script type="text/javascript" src="../assets/js/bootstrap.bundle.min.js"></script>
-<script type="text/javascript" src="../assets/datatables.min.js"></script>
+  <script type="text/javascript" src="../assets/js/custom.js"></script>
+  <script type="text/javascript" src="../assets/js/jquery.min.js"></script>
+  <script type="text/javascript" src="../assets/js/bootstrap.bundle.min.js"></script>
+  <script type="text/javascript" src="../assets/datatables.min.js"></script>
 
-<!-- Custom JS -->
-<script src="../assets/js/script.js?v=1.0" type="text/javascript"></script>
-<script>
-  $(document).ready(function() {
-    $('#example').DataTable( {
+  <!-- Custom JS -->
+  <script src="../assets/js/script.js?v=1.0" type="text/javascript"></script>
+  <script>
+    $(document).ready(function () {
+      $('#example').DataTable({
         dom: 'Bfrtip',
         buttons: [
-            'excel', 'pdf'
+          'excel', 'pdf'
         ]
-    } );
-});
-</script>
+      });
+    });
+  </script>
 </body>
+
 </html>

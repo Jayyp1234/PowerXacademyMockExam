@@ -10,7 +10,7 @@ if(!isset($_SESSION['user_id'])){
 <head>
 	<meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-	  <title>Marasoft - Dashboard </title>
+	  <title>PowerX Online Academy - Dashoard </title>
 	  <meta content="" name="description">
   	<meta content="" name="keywords">
     <link rel="icon" href="../assets/image/icon.png" type="type/png">
@@ -100,6 +100,7 @@ if(!isset($_SESSION['user_id'])){
         <span class="text">Students</span> 
       </a> 
     </li>
+    <!--
     <li class="menu-item has-submenu"> 
       <a class="menu-link" href="card.php"> <i class="icon material-icons md-book"></i>  
         <span class="text">Assessments</span> 
@@ -108,6 +109,29 @@ if(!isset($_SESSION['user_id'])){
         <a href="exams.php">Exams</a>
         <a href="create_exam.php">Generate Exam for Students</a>
         <a href="upload_result.php">Upload Results</a>
+      </div>
+    </li>
+    -->
+    <li class="menu-item has-submenu"> 
+      <a class="menu-link" href="card.php"> <i class="icon material-icons md-payment"></i>  
+        <span class="text">Payments and Bill</span> 
+      </a> 
+      <div class="submenu">
+        <a href="bills.php">Bills</a>
+        <a href="bill_student.php">Student Bill</a>
+        <a href="bill_transaction.php">Transactions</a>
+      </div>
+    </li>
+    <li class="menu-item has-submenu "> 
+      <a class="menu-link" href="card.php"> <i class="icon material-icons md-book"></i>  
+        <span class="text">Results</span> 
+      </a> 
+      <div class="submenu">
+        <a href="assement-result/generate.php">Generate Exam Results</a>
+        <a href="assement-result/upload.php">Upload Exam Results</a>
+        <a href='assement-result/generatem.php'>Generate Mid Term Results </a>
+        <a href="assement-result/upload_mid.php">Upload Mid Term Results</a>
+        
       </div>
     </li>
   </ul>
@@ -152,9 +176,6 @@ if(!isset($_SESSION['user_id'])){
       <li class="nav-item" style="display: flex;flex-direction: column;text-align: end;height: 30px;margin: 8px;">
         <b style="font-size: 12px;font-weight: 700;font-family: system-ui;line-height: 15px;color: #222133;"><?php echo $_SESSION['name'] ; ?></b>
         <span style="font-size: 11px;font-weight: 500;color: #7C7C7A;font-family: system-ui;"><?php echo $_SESSION['email'] ; ?></span>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link abb" href="#"> OE </a>
       </li>
 
     </ul> 
