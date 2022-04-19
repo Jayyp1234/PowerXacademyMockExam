@@ -1,12 +1,6 @@
 <?php
 session_start();
 ?>
-<?php
-define('SITEKEY','6LeY63QfAAAAAMGES5rc5yqGhm2Z8XKtAdCEFyyd');
-
-define('SECRETKEY','6LeY63QfAAAAAHcR6giadOLJslhI8q-oYxjR01sO');
-
-?>
 <!DOCTYPE html>
 <html lang="en">
 
