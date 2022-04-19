@@ -219,10 +219,11 @@ include '../../backend_data/init.php';
         $qfemale = $_POST["quranfemale"];
         $arabic = $_POST["arabicadvanced"];
         $data = $_POST["qaida"];
+        $class = $_POST["class"];
         $session = $_POST["session"];
         $id = test_input($_POST['id']);
-        $insertdetails = "INSERT INTO `midterm_result`(`id`, `user_id`, `tenure`, `English`, `Mathematics`, `Science`, `Biology`, `Chemistry`, `Physics`, `Qur'an (Male)`, `Qur'an (Female)`, `Arabic (Advanced)`, `Qaida Al - Nooraniyya`, `Computer`, `Comments`, `timestamp`) VALUES
-        ('','$id','$session','$english','$maths','$science','$biology','$chemistry','$physics','$qmale','$qfemale','$arabic','$data','$computer','$comment','')";
+        $insertdetails = "INSERT INTO `midterm_result`(`id`, `user_id`,`class`, `tenure`, `English`, `Mathematics`, `Science`, `Biology`, `Chemistry`, `Physics`, `Qur'an (Male)`, `Qur'an (Female)`, `Arabic (Advanced)`, `Qaida Al - Nooraniyya`, `Computer`, `Comments`, `timestamp`) VALUES
+        ('','$id','$class','$session','$english','$maths','$science','$biology','$chemistry','$physics','$qmale','$qfemale','$arabic','$data','$computer','$comment','')";
         if($conn->query($insertdetails)){
         }
         else {
@@ -230,7 +231,6 @@ include '../../backend_data/init.php';
         }
     }
       else if (isset($_POST['update-button'])) {
-        echo 'hello world';
         $english = $_POST['english'];
         $maths = $_POST['math'];
         $science = $_POST['science'];
@@ -243,9 +243,9 @@ include '../../backend_data/init.php';
         $qfemale = $_POST["quranfemale"];
         $arabic = $_POST["arabicadvanced"];
         $data = $_POST["qaida"];
+        $class = $_POST["class"];
         $id = test_input($_POST['id']);
-        echo $id;
-        $sql = "UPDATE `midterm_result` SET `English`='$english',`Mathematics`='$maths',`Science`='$science',`Biology`='$biology',`Chemistry`='$chemistry',`Physics`='$physics',`Qur'an (Male)`='$qmale',`Qur'an (Female)`='$qfemale ',`Arabic (Advanced)`='$arabic',`Qaida Al - Nooraniyya`='$data',`Computer`='$computer',`Comments`='$comment' WHERE user_id ='$id'";
+        $sql = "UPDATE `midterm_result` SET `English`='$english',`Mathematics`='$maths',`Science`='$science',`Biology`='$biology',`Chemistry`='$chemistry',`Physics`='$physics',`Qur'an (Male)`='$qmale',`Qur'an (Female)`='$qfemale ',`Arabic (Advanced)`='$arabic',`Qaida Al - Nooraniyya`='$data',`Computer`='$computer',`Comments`='$comment' WHERE user_id ='$id' and class='$class'";
         if($conn->query($sql)){
             
         }
@@ -269,7 +269,9 @@ include '../../backend_data/init.php';
                             <?php
                                 function pub($data,$data1){
                                     include '../../backend_data/init.php';
-                                    $newdata = "SELECT * FROM `midterm_result` WHERE `$data` LIKE '%' and user_id = '$data1' ";
+                                    $session = $_POST['session'];
+                                    $class = $_POST['class'];
+                                    $newdata = "SELECT * FROM `midterm_result` WHERE `$data` LIKE '%' and user_id = '$data1' and class='$class' ";
                                     $resulte = $conn->query($newdata);
                                     if ($resulte ->num_rows > 0) {
                                         // output data of each row
@@ -287,7 +289,7 @@ include '../../backend_data/init.php';
                     include '../../backend_data/init.php';
                     $session = $_POST['session'];
                     $class = $_POST['class'];
-                    $newdata = "SELECT * FROM `midterm_result` WHERE user_id = '$data1' ";
+                    $newdata = "SELECT * FROM `midterm_result` WHERE user_id = '$data1' and class='$class' ";
                     $resulte = $conn->query($newdata);
                     if ($resulte->num_rows > 0) {
                         // output data of each row
@@ -453,7 +455,7 @@ include '../../backend_data/init.php';
                 }
                 include '../../backend_data/init.php';
 
-                $sql = "SELECT * FROM `users` WHERE class = '$class'";
+                $sql = "SELECT * FROM `users` WHERE class LIKE '%$class%'";
                 $query = mysqli_query($conn,$sql);
                  if($query){
                      if(mysqli_num_rows($query) > 0){

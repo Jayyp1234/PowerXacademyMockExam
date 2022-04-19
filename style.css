@@ -217,7 +217,7 @@ tfoot {
   background-image: -o-linear-gradient(top, #fbf6f7, #fff);
   background-image: linear-gradient(to bottom, #fbf6f7, #fff);
   border-radius: 2em;
-  height: 812px;
+  height:700px;
   -webkit-box-shadow: 0 0 1em rgba(0, 0, 0, 0.0625);
           box-shadow: 0 0 1em rgba(0, 0, 0, 0.0625);
   width: 100%;

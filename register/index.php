@@ -1,6 +1,12 @@
 <?php
 session_start();
 ?>
+<?php
+define('SITEKEY','6LeY63QfAAAAAMGES5rc5yqGhm2Z8XKtAdCEFyyd');
+
+define('SECRETKEY','6LeY63QfAAAAAHcR6giadOLJslhI8q-oYxjR01sO');
+
+?>
 <!DOCTYPE html>
 <html lang="en">
 
@@ -17,10 +23,22 @@ session_start();
   <link rel="preload" href="../assets/fonts/OpenSans-Regular.ttf" as='font' crossorigin='anonymous'>
   <link rel="preload" href="../assets/fonts/OpenSans-SemiBold.ttf" as='font' crossorigin='anonymous'>
   <link rel="preload" href="../assets/fonts/OpenSans-Bold.ttf" as='font' crossorigin='anonymous'>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css" >
   <link href="../assets/css/style.css" rel="stylesheet">
   <link href="../assets/css/form.css" rel="stylesheet">
 </head>
-
+<style>
+  .dropdown-menu.show {
+    height: 300px !important;
+    overflow-y: auto;
+    width: 300px !important;
+}.wlsm-form-group1 button {
+    background: #eeeeee;
+    box-shadow: none;
+    border-radius: 12.3566px;
+    color: #797575;
+  }
+</style>
 <body>
 
   <?php
@@ -62,7 +80,7 @@ session_start();
   if(isset($_POST['signup'])){
   $errorMessage = "";
   if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if(!empty(test_input($_POST['name'])) && !empty(test_input($_POST['email'])) && !empty(test_input($_POST['gender'])) && !empty(test_input($_POST['login_username'])) && !empty(test_input($_POST['class_id'])) && !empty(test_input($_POST['login_email'])) && !empty(test_input($_POST['login_password'])) ){
+    if(!empty(test_input($_POST['name'])) && !empty(test_input($_POST['email'])) && !empty(test_input($_POST['gender'])) && !empty(test_input($_POST['login_username'])) && !empty($_POST['class_id']) && !empty(test_input($_POST['login_email'])) && !empty(test_input($_POST['login_password'])) ){
       $name = test_input($_POST['name']);
       $email = test_input($_POST['email']);
       $gender = test_input($_POST['gender']);
@@ -72,7 +90,7 @@ session_start();
       $city = test_input($_POST['city']);
       $state = test_input($_POST['state']);
       $country = test_input($_POST['country']);
-      $class = test_input($_POST['class_id']);
+      $class = implode(",",$_POST['class_id']);
       $loginname = test_input($_POST['login_username']);
       $loginemail = test_input($_POST['login_email']);
       $password = test_input($_POST['login_password']);
@@ -98,12 +116,17 @@ session_start();
           Passwords does not match, please try again.</div>';
       }
       else {
+        $recaptcha = $_POST['g-recaptcha-response'];
+        $secretKey = SECRETKEY;
+        $url = 'https://www.google.com/recaptcha/api/siteverify?secret='.$secretKey . '&response=' . $recaptcha;
+        $res = json_decode(file_get_contents($url));
+        if($res->success == 1){
           $nameErr = $emailErr= '';
           $insertdetails = "
           INSERT INTO `users`(`id`, `name`, `student_id`, `email`, `password`, `gender`, `religion`, `address`, `phoneno`, `city`, `state`, `country`, `class`, `image`, `section`, `login_username`, `login_email`, `activity`, `role`, `payment_time`, `expiry_time`, `payment_status`) 
           VALUES 
           ('','$name','$key','$email','$password','$gender','$religion','$address','$phoneno','$city','$state','$country','$class','','','$loginname','$loginemail','','user','0','0','owing')";
-          print_r($insertdetails);
+          
           if($conn->query($insertdetails)){
             echo $name;
             $sql = "SELECT * FROM users where name ='$name' ";
@@ -135,6 +158,11 @@ session_start();
           else{
             echo "Record Not Succesful";
           }
+        }else{
+            //echo agba  hacker or robot..
+            echo "invalid...";
+        }
+          
       }
       $conn->close();
     }
@@ -142,6 +170,7 @@ session_start();
   }
 
 ?>
+
   <main>
     <div class="container row"
       style="justify-content:center;margin:auto;align-items: center;display: flex;height: 100vh;margin-top:20px;margin-bottom:25px;">
@@ -264,12 +293,11 @@ session_start();
           </div>
 
           <div class="row">
-            <div class="wlsm-form-group col-md-4">
+            <div class="wlsm-form-group wlsm-form-group1 col-md-6">
               <label for="wlsm_school_class" class="wlsm-font-bold">
                 <span class="wlsm-important">*</span> Class:
               </label>
-              
-              <select name="class_id" class="wlsm-form-control" data-nonce="25b0b16706" id="wlsm_school_class">
+              <select class="selectpicker" name="class_id[]" style="display:none;" multiple aria-label="Default select example" data-live-search="true">
                 <option value="">Select Class</option>
                 <?php
                 include '../backend_data/init.php';
@@ -286,9 +314,9 @@ session_start();
             ?>
 
               </select>
-            </div>
+              </div>
 
-            <div class="wlsm-form-group col-md-4">
+            <div class="wlsm-form-group col-md-6">
               <div class="wlsm-photo-box wlsm-mt-2">
                 <div class="wlsm-photo-section">
                   <label for="wlsm_photo" class="wlsm-font-bold">
@@ -336,19 +364,24 @@ session_start();
                 <label for="wlsm_parent_login_password" class="wlsm-font-bold">
                   <span class="wlsm-important">*</span> Password:
                 </label>
-                <input type="password" name="login_password" class="wlsm-form-control" id="wlsm_parent_login_password"
+                <input type="password" name="login_password" class="wlsm-form-control" autocomplete="true"
                   placeholder="Enter password">
               </div>
               <div class="wlsm-form-group col-md-6">
                 <label for="wlsm_parent_login_password" class="wlsm-font-bold">
                   <span class="wlsm-important">*</span> Confirm Password:
                 </label>
-                <input type="password" name="login_conpassword" class="wlsm-form-control" id="wlsm_parent_login_password"
+                <input type="password" name="login_conpassword" class="wlsm-form-control" autocomplete="true"
                   placeholder="Confirm password">
               </div>
             </div>
           </div>
         </div>
+      <br>
+        <!-- div to show reCAPTCHA -->
+      <div class="g-recaptcha" 
+      data-sitekey="<?php echo SITEKEY ?>">
+      </div>
       <br>
       <div class="col-md-12 wlsm-form-group">
         <button type="submit" name='signup'>Sign Up</button>
@@ -364,7 +397,9 @@ session_start();
 </body>
 <script type="text/javascript" src="../assets/js/custom.js"></script>
 <script type="text/javascript" src="../assets/js/jquery.min.js"></script>
-<script type="text/javascript" src="../assets/js/boostrap.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js"></script>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 <script>
   (function () {
     'use strict';

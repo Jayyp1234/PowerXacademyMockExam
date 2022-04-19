@@ -1,6 +1,7 @@
 <?php
 include '../backend_data/init.php';
 session_start();
+ob_start();
 
 if(!isset($_SESSION['user_id'])){
     header('location:../login/');
@@ -23,6 +24,7 @@ if(!isset($_SESSION['user_id'])){
     <link href="../assets/datatables.min.css" rel="stylesheet">
     <link href="../assets/css/ui.css?v=1.1" rel="stylesheet" type="text/css"/>
     <link href="../assets/css/responsive.css?v=1.1" rel="stylesheet" />
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/css/bootstrap-select.min.css" >
     <!-- iconfont -->
     <link rel="stylesheet" href="../assets/fonts/material-icon/css/round.css"/>
 
@@ -70,7 +72,23 @@ if(!isset($_SESSION['user_id'])){
         color: #6B6F7B;
         font-weight:500;
 
+    }.btn.dropdown-toggle.bs-placeholder.btn-light{
+      width: 100% !important;
+      height: 50px !important;
     }
+    .inner {
+      padding:0 !important;
+    }
+    .dropdown-menu.show {
+    height: 300px !important;
+    overflow-y: auto;
+    width: 300px !important;
+}.wlsm-form-group1 button {
+    background: #eeeeee;
+    box-shadow: none;
+    border-radius: 12.3566px;
+    color: #797575;
+  }
     .content-header1{
         display: flex;
         align-items: center;
@@ -126,7 +144,7 @@ if(!isset($_SESSION['user_id'])){
 <aside class="navbar-aside" id="offcanvas_aside">
 <div class="aside-top">
   <a href="page-index-1.html" class="brand-wrap">
-    <img src="../assets/image/icon-pro.png" height="46" class="logo" alt="Ecommerce dashboard template">
+    <img src="../assets/image/icon-pro.png" height="46" class="logo" alt="template">
   </a>
   <div>
     <button class="btn btn-icon btn-aside-minimize"> <i class="text-muted material-icons md-menu_open"></i> </button>
@@ -234,11 +252,98 @@ if(!isset($_SESSION['user_id'])){
     </ul> 
   </div>
 	</header>
-
+<?php
+  include '../backend_data/init.php';
+  $name = $email = $username = $password = $department = '';
+  $nameErr = $emailErr = $errormessage = '';
+  function test_input($data) {
+    $data = trim($data);
+    $data = stripslashes($data);
+    $data = htmlspecialchars($data);
+    return $data;
+  }
+  function createKey() { 
+    $chars = "ABCDEFGHIJKLMNOPQRSTUVWXYZ023456789"; 
+    srand((double)microtime()*1000000); 
+    $i = 0; 
+    $pass = '' ; 
+    while ($i <= 10) { 
+        $num = rand() % 33; 
+        $tmp = substr($chars, $num, 1); 
+        $pass = $pass . $tmp; 
+        $i++; 
+        } 
+         return $pass; 
+    }
+  function confirmemail($data){
+    include '../backend_data/init.php';
+    $emailval = "SELECT * FROM users WHERE email = '$data' ";
+    $validator = $conn->query($emailval);
+      if ($validator->num_rows > 0) {
+        return false;
+      }
+    else{
+      return true;
+    }
+    $conn->close();
+  } 
+  if ($_SERVER["REQUEST_METHOD"] == "POST") {
+    if(!empty(test_input($_POST['name'])) && !empty(test_input($_POST['email'])) && !empty($_POST['class_id'])  ){
+      $name = test_input($_POST['name']);
+      $email = test_input($_POST['email']);
+      $gender = 'data';
+      $religion = 'data';
+      $address = 'data';
+      $phoneno = 'data';
+      $city = 'data';
+      $state = 'data';
+      $country = 'data';
+      $class = implode(",",$_POST['class_id']);;
+      $loginname = 'data';
+      $loginemail = test_input($_POST['email']);
+      $password = test_input($_POST['password']);
+      $password1 = test_input($_POST['password']);
+      $key = createKey();
+      if (!preg_match("/^[a-zA-Z ]*$/", $name)) {
+        $errormessage .='<div class="alert alert-warning alert-dismissible fade show" role="alert">
+          Only letters and white space allowed
+        </div>';
+      }
+      else if (!filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        $errormessage .='<div class="alert alert-warning alert-dismissible fade show" role="alert">
+          Invalid email address
+        </div>';
+      }
+      else if(!confirmemail($email)){
+        $errormessage .='<div class="alert alert-warning alert-dismissible fade show" role="alert">
+          Email address already exists.
+        </div>';
+      }
+      else if($password != $password1){
+        $errormessage .='<div class="alert alert-warning alert-dismissible fade show" role="alert">
+          Passwords does not match, please try again.
+        </div>';
+      }
+      else {
+          $nameErr = $emailErr= '';
+          $insertdetails = "INSERT INTO `users`(`id`, `name`, `student_id`, `email`, `password`, `gender`, `religion`, `address`, `phoneno`, `city`, `state`, `country`, `class`, `image`, `section`, `login_username`, `login_email`, `activity`, `role`, `payment_time`, `expiry_time`, `payment_status`) 
+          VALUES 
+          ('','$name','$key','$email','$password','$gender','$religion','$address','$phoneno','$city','$state','$country','$class','','','$loginname','$loginemail','','instructor','0','0','paid')";
+          if($conn->query($insertdetails)){
+              header('Location:instructors.php');
+          }
+          else{
+            echo "Record Not Succesful";
+          }
+      }
+      $conn->close();
+    }
+  }
+?>
 <section class="content-main">
     <div style="display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;margin-bottom:20px;">
             <h4>  Instructors </h4>
-            <!--
+        
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal" data-bs-whatever="@mdo">Add Instructor</button>      <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
@@ -247,84 +352,47 @@ if(!isset($_SESSION['user_id'])){
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
       <div class="modal-body">
-        <form>
+        <form method="POST" action='instructors.php'>
           <div class="mb-3">
-            <label for="recipient-name" class="col-form-label">Recipient:</label>
-            <input type="text" class="form-control" id="recipient-name">
+            <label class="col-form-label">Recipient:</label>
+            <input type="text" class="form-control" name='name'>
           </div>
           <div class="mb-3">
-            <label for="recipient-name" class="col-form-label">Email:</label>
-            <input type="text" class="form-control" id="recipient-name">
+            <label class="col-form-label">Email:</label>
+            <input type="text" class="form-control" name='email'>
           </div>
           <div class="mb-3">
-            <label for="recipient-name" class="col-form-label">Class:</label>
-            <select name="class_id" class="form-control" data-nonce="25b0b16706" id="wlsm_school_class">
+            <label class="col-form-label">Class:</label>
+            <select class="selectpicker" name="class_id[]" style="display:none;" multiple aria-label="Default select example" data-live-search="true">
                 <option value="">Select Class</option>
-                <option value="Grade 1">
-                  Grade 1 </option>
-                <option value="Grade 2">
-                  Grade 2 </option>
-                <option value="Grade 3">
-                  Grade 3 </option>
-                <option value="Grade 4">
-                  Grade 4 </option>
-                <option value="Grade 5">
-                  Grade 5 </option>
-                <option value="Grade 6">
-                  Grade 6 </option>
-                <option value="Grade 7">
-                  Grade 7 </option>
-                <option value="Grade 8">
-                  Grade 8 </option>
-                <option value="Grade 9">
-                  Grade 9 </option>
-                <option value="Grade 10">
-                  Grade 10 </option>
-                <option value="Grade 11">
-                  Grade 11 </option>
-                <option value="Grade 12">
-                  Grade 12 </option>
-                <option value="College">
-                  College </option>
-                <option value="University">
-                  University </option>
-                <option value="Vocational Course">
-                  Vocational Course </option>
-                <option value="Professional Course">
-                  Professional Course </option>
-                <option value="Others">
-                  Others </option>
-                <option value="Qur’an (Boys)">
-                  Qur’an (Boys) </option>
-                <option value="Qur’an (Girls)">
-                  Qur’an (Girls) </option>
-                <option value="Arabic (Beginners)">
-                  Arabic (Beginners) </option>
-                <option value="Arabic (Advanced)">
-                  Arabic (Advanced) </option>
-                <option value="Physics">
-                  Physics </option>
-                <option value="Chemistry">
-                  Chemistry </option>
-                <option value="Biology">
-                  Biology </option>
-                <option value="Business &amp; Investment Coaching">
-                  Business &amp; Investment Coaching </option>
+                <?php
+                include '../backend_data/init.php';
+                $sql = "SELECT * FROM classes ORDER BY title ASC";
+                $query = mysqli_query($conn,$sql);
+                if($query){
+                    if(mysqli_num_rows($query) > 0){
+                        while($row = mysqli_fetch_assoc($query)){
+                            echo '<option value="'.$row['title'].'">'.$row['title'].'</option>';
+                        }
+                    }
+                }
+                
+            ?>
 
               </select>
           </div>
           <div class="mb-3">
-            <label for="recipient-name" class="col-form-label">Password:</label>
-            <input type="password" class="form-control" id="recipient-password">
+            <label  class="col-form-label">Password:</label>
+            <input type="password" name='password' class="form-control">
           </div>
-          
+          <input type='submit' name='signup' class="btn btn-primary" value="Create" >
         </form>
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Create</button>
+        
       </div>
-    </div>-->
+    </div>
   </div>
 </div>
     </div>
@@ -343,8 +411,8 @@ if(!isset($_SESSION['user_id'])){
                          <tr>
                              <th>Name</th>
                              <th>Email</th>
-                             <th>Address</th>
-                             <th>Phone Number</th>
+                             <th>Class</th>
+                             <th>Password</th>
                          </tr>
                      </thead><tbody>";
                      while($row = mysqli_fetch_assoc($query)){
@@ -352,9 +420,8 @@ if(!isset($_SESSION['user_id'])){
                          $output .="<tr>
                          <td>".$row['name']."</td>
                          <td>".$row['email']."</td>
-                         <td>".$row['address']."</td>
-                         <td>".$row['phoneno']."</td>
-                         
+                         <td>".$row['class']."</td>
+                         <td>".$row['password']."</td>
                 
                          </tr>";
                      }
@@ -383,8 +450,10 @@ if(!isset($_SESSION['user_id'])){
 
 <script type="text/javascript" src="../assets/js/custom.js"></script>
 <script type="text/javascript" src="../assets/js/jquery.min.js"></script>
-<script type="text/javascript" src="../assets/js/bootstrap.bundle.min.js"></script>
 <script type="text/javascript" src="../assets/datatables.min.js"></script>
+<script type="text/javascript" src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.14.0-beta2/js/bootstrap-select.min.js"></script>
+<script src="https://www.google.com/recaptcha/api.js" async defer></script>
 
 <!-- Custom JS -->
 <script src="../assets/js/script.js?v=1.0" type="text/javascript"></script>

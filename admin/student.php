@@ -279,10 +279,6 @@ if(!isset($_SESSION['user_id'])){
             <span
               style="font-size: 11px;font-weight: 500;color: #7C7C7A;font-family: system-ui;"><?php echo $_SESSION['email']; ?></span>
           </li>
-          <li class="nav-item">
-            <a class="nav-link abb" href="#"> OE </a>
-          </li>
-
         </ul>
       </div>
     </header>

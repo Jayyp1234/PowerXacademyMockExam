@@ -170,14 +170,40 @@ else{
       <br>
     </nav>
   </aside>
-
+<?php
+if (isset($_POST['class'])){
+  $_SESSION['class'] = $_POST['class'];
+}
+?>
   <main class="main-wrap">
     <header class="main-header navbar">
       <div class="col-search">
-        <form class="searchform">
+        <form class="searchform" method="POST">
           <div class="input-group">
-            <button class="btn btn-light bg pip2" type="button"> <i class="material-icons md-search"></i> </button>
-            <input type="text" class="form-control pip" placeholder="Search...">
+            <button class="btn btn-light bg pip2" type="button"> Class </button>
+            <select class="custom-select pip2" name="class" id="inputGroupSelect04" style="width: calc(100% - 70px);border-radius: 0px 10px 10px 0px;border: 1px solid rgba(108, 117, 125, 0.25);">
+            <?php
+                include '../backend_data/init.php';
+                $id = $_SESSION['user_id'];
+                $data1 = "SELECT * FROM `users` WHERE id='$id' ";
+                $result = $conn->query($data1);
+                if ($result->num_rows > 0) {
+                   while($row = $result->fetch_assoc()) {
+                     $class = $row['class'];
+                   }
+                   $data = explode(',', $class);
+                   foreach ($data as $value) {
+                     if ($_SESSION['class'] == $value){
+                      echo '<option value="'.$value.'" selected>'.$value.'</option>';
+                     }
+                     else{
+                      echo '<option value="'.$value.'">'.$value.'</option>';
+                     }
+                    
+                  }
+                }
+            ?>
+          </select>
           </div>
         </form>
       </div>
@@ -325,7 +351,7 @@ else{
             include '../backend_data/init.php';
             $id = $_SESSION['user_id'];
             $class = $_SESSION['class'];
-            $data1 = "SELECT * FROM `exam_result` WHERE `user_id` ='$id' ";
+            $data1 = "SELECT * FROM `exam_result` WHERE `user_id` ='$id' and class='$class' ";
             $result = $conn->query($data1);
             if ($result->num_rows > 0) {
               while($row = $result->fetch_assoc()) {
@@ -356,7 +382,7 @@ else{
           Mid Term Exam Results
         </button>
         <?php
-            $data1 = "SELECT * FROM `midterm_result` WHERE `user_id` ='$id' ";
+            $data1 = "SELECT * FROM `midterm_result` WHERE `user_id` ='$id' and class='$class' ";
             $result = $conn->query($data1);
             if ($result->num_rows > 0) {
               while($row = $result->fetch_assoc()) {
@@ -400,7 +426,13 @@ else{
   <script type="text/javascript" src="../assets/js/wow/main.js"></script>
   <!-- Custom JS -->
   <script src="../assets/js/script.js?v=1.0" type="text/javascript"></script>
-
+<script>
+  $(document).ready(function() {
+    $('.pip2').on('change', function(){
+      $('.searchform').submit();
+    });
+});
+</script>
 </body>
 
 </html>

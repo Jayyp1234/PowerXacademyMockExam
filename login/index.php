@@ -73,7 +73,7 @@ if (isset($_SESSION['user_id'])) {
           $_SESSION['name'] = $row["name"];
           $_SESSION['email'] = $row["email"];
           $_SESSION['role'] = $row["role"];
-          $_SESSION['class'] = $row["class"];
+          $_SESSION['class'] = explode(",",$row["class"])[0];
           $status = $row["payment_status"];
         }
         

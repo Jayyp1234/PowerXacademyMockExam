@@ -8,7 +8,7 @@ if (empty($_GET['id']) || !isset($_GET['id'])){
 else{
   include './backend_data/init.php';
   $id = $_GET['id'];
-  $sql = "SELECT * FROM users LEFT JOIN classes ON users.class = classes.title WHERE users.id =  '$id' ";
+  $sql = "SELECT * FROM users WHERE id =  '$id' ";
   $query = mysqli_query($conn,$sql);
   if ($query) {
     while ($row = mysqli_fetch_assoc($query)) {
@@ -17,11 +17,11 @@ else{
       $address = $row["address"];
       $country = $row['country'];
       $state = $row['state'];
-      $price = $row['price'];
-      $duration = $row['span'];
-      
+      $class = $row['class'];
     }
   }
+  $real_class = explode(",", $class);
+  
   if (isset($_POST['price'])){
     $id = $_POST['id'];
     $status = $_POST['status'];
@@ -110,16 +110,35 @@ else{
 
       <table>
         <tbody>
-          <tr>
-            <td>Registration Fee</td>
-            <td align="right">NGN <?php echo $price ?></td>
-          </tr>
+          <?php
+          $total = 0;
+          $span = 0;
+          $len = 0;
+            foreach ($real_class as $value) {
+              $sql = "SELECT * FROM classes WHERE title = '$value' ";
+              $query = mysqli_query($conn,$sql);
+              
+              if ($query) {
+                while ($row = mysqli_fetch_assoc($query)) {
+                  echo '<tr>
+                  <td>'.$row['title'].' Registration Fee</td>
+                  <td align="right">NGN '.$row['price'].'</td>
+                </tr>';
+                  $total += intval($row['price']);
+                  $span +=  $row['span'];
+                  $len += 1;
+                }
+                $duration = $span/$len;
+              }
+            }
+          ?>
+          
           <br>
         </tbody>
         <tfoot>
           <tr>
             <td>Total</td>
-            <td align="right">NGN <?php echo $price ?></td>
+            <td align="right">NGN <?php echo $total ?></td>
           </tr>
         </tfoot>
       </table>
@@ -187,7 +206,7 @@ else{
 <form method="POST" id="checkout" style="display:none;"> 
   <input type="text" name='id'  value='<?php echo $id ?>'>
   <input type="text" name='email' class="email" value='<?php echo $email ?>'>
-  <input type="text" name='price' id="price" value='<?php echo $price ?>'>
+  <input type="text" name='price' id="price" value='<?php echo $total ?>'>
   <input type="text" name='duration' value='<?php echo $duration ?>'>
   <input type="text" name='status' class="status" value=''>
 </form>

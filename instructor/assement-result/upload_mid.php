@@ -10,7 +10,7 @@ include '../../backend_data/init.php';
 <head>
 	<meta charset="utf-8">
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
-	  <title>PowerX Online Academy - Upload Mid Semester Result </title>
+	  <title>PowerX Online Academy - Dashoard </title>
 	  <meta content="" name="description">
   	<meta content="" name="keywords">
     <link rel="icon" href="../../assets/image/icon.png" type="type/png">

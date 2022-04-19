@@ -92,7 +92,7 @@ margin-left: 10px;
     color: #9FA2B4;
     font-family: system-ui;
 }
-.form .form-field input, .wlsm-form-group input[type='text'],.wlsm-form-group input[type='email'], .wlsm-form-group input[type='password'], .wlsm-form-group textarea, .wlsm-form-group select{
+.form .form-field input, .wlsm-form-group input[type='text'],.wlsm-form-group input[type='email'], .wlsm-form-group input[type='password'], .wlsm-form-group textarea{
   width: 100%;
   height: 45px;
   border-radius: 10px;

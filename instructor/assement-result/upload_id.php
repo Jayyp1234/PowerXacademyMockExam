@@ -249,8 +249,8 @@ include '../../backend_data/init.php';
                                 $data = $_POST["qaida"];
                                 $session = $_POST["session"];
                                 $id = test_input($_POST['id']);
-                                $insertdetails = "INSERT INTO `exam_result`(`id`, `user_id`, `tenure`, `English`, `Mathematics`, `Science`, `Biology`, `Chemistry`, `Physics`, `Qur'an (Male)`, `Qur'an (Female)`, `Arabic (Advanced)`, `Qaida Al - Nooraniyya`, `Computer`, `attitude`,`behaviour`,`attendance`, `timestamp`) VALUES
-                                ('','$id','$session','$english','$maths','$science','$biology','$chemistry','$physics','$qmale','$qfemale','$arabic','$data','$computer','$attitude','$behaviour','$attendance','')";
+                                $insertdetails = "INSERT INTO `exam_result`(`id`, `user_id`,`class`, `tenure`, `English`, `Mathematics`, `Science`, `Biology`, `Chemistry`, `Physics`, `Qur'an (Male)`, `Qur'an (Female)`, `Arabic (Advanced)`, `Qaida Al - Nooraniyya`, `Computer`, `attitude`,`behaviour`,`attendance`, `timestamp`) VALUES
+                                ('','$id','$class','$session','$english','$maths','$science','$biology','$chemistry','$physics','$qmale','$qfemale','$arabic','$data','$computer','$attitude','$behaviour','$attendance','')";
                                 if($conn->query($insertdetails)){
                                 }
                                 else {
@@ -493,7 +493,7 @@ include '../../backend_data/init.php';
                                     }
                 include '../../backend_data/init.php';
 
-                $sql = "SELECT * FROM `users` WHERE class = '$class'";
+                $sql = "SELECT * FROM `users` WHERE class LIKE '%$class%'";
                 $query = mysqli_query($conn,$sql);
                  if($query){
                      if(mysqli_num_rows($query) > 0){
@@ -583,9 +583,10 @@ include '../../backend_data/init.php';
                                 $arabic = $_POST["arabicadvanced"];
                                 $data = $_POST["qaida"];
                                 $session = $_POST["session"];
+                                $class = $_POST['class'];
                                 $id = test_input($_POST['id']);
-                                $insertdetails = "INSERT INTO `exam_result`(`id`, `user_id`, `tenure`, `English2`, `Mathematics2`, `Science2`, `Biology2`, `Chemistry2`, `Physics2`, `Qur'an (Male)2`, `Qur'an (Female)2`, `Arabic (Advanced)2`, `Qaida Al - Nooraniyya2`, `Computer2`, `attitude`,`behaviour`,`attendance`, `timestamp`) VALUES
-                                ('','$id','$session','$english','$maths','$science','$biology','$chemistry','$physics','$qmale','$qfemale','$arabic','$data','$computer','$attitude','$behaviour','$attendance','')";
+                                $insertdetails = "INSERT INTO `exam_result`(`id`, `user_id`, `class`, `tenure`, `English2`, `Mathematics2`, `Science2`, `Biology2`, `Chemistry2`, `Physics2`, `Qur'an (Male)2`, `Qur'an (Female)2`, `Arabic (Advanced)2`, `Qaida Al - Nooraniyya2`, `Computer2`, `attitude`,`behaviour`,`attendance`, `timestamp`) VALUES
+                                ('','$id','$class','$session','$english','$maths','$science','$biology','$chemistry','$physics','$qmale','$qfemale','$arabic','$data','$computer','$attitude','$behaviour','$attendance','')";
                                 if($conn->query($insertdetails)){
                                 }
                                 else {
@@ -812,7 +813,7 @@ include '../../backend_data/init.php';
                                     }
                 include '../../backend_data/init.php';
 
-                $sql = "SELECT * FROM `users` WHERE class = '$class'";
+                $sql = "SELECT * FROM `users` WHERE class LIKE '%$class%'";
                 $query = mysqli_query($conn,$sql);
                  if($query){
                      if(mysqli_num_rows($query) > 0){
@@ -901,10 +902,11 @@ include '../../backend_data/init.php';
                                 $qfemale = $_POST["quranfemale"];
                                 $arabic = $_POST["arabicadvanced"];
                                 $data = $_POST["qaida"];
+                                $class = $_POST['class'];
                                 $session = $_POST["session"];
                                 $id = test_input($_POST['id']);
-                                $insertdetails = "INSERT INTO `exam_result`(`id`, `user_id`, `tenure`, `English3`, `Mathematics3`, `Science3`, `Biology3`, `Chemistry3`, `Physics3`, `Qur'an (Male)3`, `Qur'an (Female)3`, `Arabic (Advanced)3`, `Qaida Al - Nooraniyya3`, `Computer3`, `attitude`,`behaviour`,`attendance`, `timestamp`) VALUES
-                                ('','$id','$session','$english','$maths','$science','$biology','$chemistry','$physics','$qmale','$qfemale','$arabic','$data','$computer','$attitude','$behaviour','$attendance','')";
+                                $insertdetails = "INSERT INTO `exam_result`(`id`, `user_id`, `class`, `tenure`, `English3`, `Mathematics3`, `Science3`, `Biology3`, `Chemistry3`, `Physics3`, `Qur'an (Male)3`, `Qur'an (Female)3`, `Arabic (Advanced)3`, `Qaida Al - Nooraniyya3`, `Computer3`, `attitude`,`behaviour`,`attendance`, `timestamp`) VALUES
+                                ('','$id','$class','$session','$english','$maths','$science','$biology','$chemistry','$physics','$qmale','$qfemale','$arabic','$data','$computer','$attitude','$behaviour','$attendance','')";
                                 if($conn->query($insertdetails)){
                                 }
                                 else {
@@ -1131,7 +1133,7 @@ include '../../backend_data/init.php';
                                     }
                 include '../../backend_data/init.php';
 
-                $sql = "SELECT * FROM `users` WHERE class = '$class'";
+                $sql = "SELECT * FROM `users` WHERE class LIKE '%$class%'";
                 $query = mysqli_query($conn,$sql);
                  if($query){
                      if(mysqli_num_rows($query) > 0){

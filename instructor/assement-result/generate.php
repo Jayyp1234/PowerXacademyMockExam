@@ -95,18 +95,6 @@ include '../../backend_data/init.php';
         <span class="text">Students</span> 
       </a> 
     </li>
-    <!--
-    <li class="menu-item has-submenu"> 
-      <a class="menu-link" href="card.php"> <i class="icon material-icons md-book"></i>  
-        <span class="text">Assessments</span> 
-      </a> 
-      <div class="submenu">
-        <a href="exams.php">Exams</a>
-        <a href="create_exam.php">Generate Exam for Students</a>
-        <a href="upload_result.php">Upload Results</a>
-      </div>
-    </li>
-    -->
     <li class="menu-item has-submenu active"> 
       <a class="menu-link" href="card.php"> <i class="icon material-icons md-book"></i>  
         <span class="text">Results</span> 
